@@ -46,11 +46,11 @@ The app contains 4 tabs: Map, Data, Add new Location, Read Me
 
 **Data**: Display the information of donation locations
 
-![Data](DataDS.png)
+![Data](Data.png)
 
 ***
 
-![Google Map](MapDS.png)
+![Google Map](Map.png)
 - When click on the dot, information of the place will be shown
 - Can select a type of donation to display
 
@@ -59,7 +59,7 @@ Summary Of Experience
 title: false
 
 **Add new Location**: Used to add new donation location
-![Add Location](AddLocationDS.png)
+![Add Location](AddLocation.png)
 
 **Read Me**: Contain explanation of the shiny app
 
