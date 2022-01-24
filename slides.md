@@ -1,6 +1,6 @@
-GROUP Q
+LOCATE AND DONATE
 ========================================================
-author: LOCATE AND DONATE
+author: GROUP Q
 
 1. CHRISTINA KU PEI SAN (U2102789)
 2. MARVIN CHIN YI KAI (U2000490)
@@ -67,3 +67,4 @@ title: false
 
 **Summary of Experience**
 
+This is our first time making Shiny App. We design this app to help people to find donation locations. However, this app is only limited to places in Kuala Lumpur. Hope you find it useful.
