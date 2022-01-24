@@ -48,31 +48,17 @@ shinyServer(function(input, output, session) {
   
   
   #create a data object to display data
-  output$data <-DT::renderDataTable(datatable())
-  
-  #create popup window if user click add
-  observeEvent(input$NewLocation, {
-    showModal(modalDialog(
-      tags$h2('Please enter the necessary information'),
-      textInput('Name', 'Name'),
-      textInput('Address', 'Address'),
-      numericInput('Latitude', 'Latitude', 0, min = -90,  max = 90, step = NA),
-      numericInput('Longitude', 'Longitude', 0, min = -180,  max = 180, step = NA),
-      textInput('Contact', 'Contact (Optional)'),
-      textInput('Email', 'Email (Optional)'),
-      textInput('Website', 'Website (Optional)'),
-      selectInput('Category', 'Category', choices = list("Blood", "Clothes", "Food", "Recycle"), selected = NULL, multiple = FALSE, selectize = TRUE),
-      footer=tagList(
-        actionButton('submit', 'Submit'),
-        modalButton('cancel')
-      )
-    ))
-  })
+  output$data <-DT::renderDataTable(datatable(
+    lnd_data[,c(1,2,5,6,7:8)],filter = 'top',
+    colnames = c("Name", "Address", "Contact", "Email", "Website", "Category" )
+  ))
   
   # only store the information if the user clicks submit
-  datatable <- eventReactive(input$submit, {
-    removeModal()
-    if(input$Name!="" && input$Address!="" && !is.null(input$Latitude) && !is.null(input$Longitude)){
+  observeEvent(input$submit, {
+    if(input$Name!="" && input$Address!=""){
+      #show added success
+      showNotification("Location Added")
+      
       newrow = data.frame(Name = input$Name,
                           Address = input$Address,
                           Latitude = input$Latitude,
@@ -81,14 +67,37 @@ shinyServer(function(input, output, session) {
                           Email = input$Email,
                           Website = input$Website,
                           Category = input$Category) 
+      lnd_data <<- rbind(lnd_data, newrow)
+      
+      #rerender the table
+      output$data <-DT::renderDataTable(datatable(
+        lnd_data[,c(1,2,5,6,7:8)],filter = 'top',
+        colnames = c("Name", "Address", "Contact", "Email", "Website", "Category" )
+      ))
+      
+      #update value of lnd_data2
       newrow2 <- mutate(newrow, cntnt=paste0('<strong>Name: </strong>',Name,
                                              '<br><strong>Address:</strong> ', Address,
                                              '<br><strong>Contact:</strong> ',Contact,
                                              '<br><strong>Email:</strong> ',Email,
                                              '<br><strong>Website:</strong> ',Website))
-      lnd_data <<- rbind(lnd_data, newrow)
+      
       lnd_data2 <<- rbind(lnd_data2, newrow2)
+      
+      #rerender map
+      output$map <- renderLeaflet({
+        leaflet(filteredData()) %>% 
+          addCircles(lng = ~Longitude, lat = ~Latitude) %>% 
+          addTiles() %>%
+          addCircleMarkers(lat =  ~Latitude, lng =~Longitude, 
+                           radius = 10, popup = ~as.character(cntnt), 
+                           color = ~pal(Category),
+                           stroke = FALSE, fillOpacity = 0.9)%>%
+          addLegend(pal=pal, values=lnd_data$Category,opacity=1, na.label = "Not Available")%>%
+          addEasyButton(easyButton(
+            icon="fa-crosshairs", title="ME",
+            onClick=JS("function(btn, map){ map.locate({setView: true}); }")))
+      })
     }
-    lnd_data
   }, ignoreNULL = FALSE)
 })
