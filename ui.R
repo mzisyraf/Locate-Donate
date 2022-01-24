@@ -18,7 +18,6 @@ navbarPage("Locate and Donate", id="main",
                                                 `live-search` = TRUE)
                                   )
                     ),
-                    actionButton("NewLocation", "Add more")
            ),
            tabPanel("Data", DT::dataTableOutput("data")),
            tabPanel("Read Me",includeMarkdown("readme.md")))
