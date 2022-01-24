@@ -21,7 +21,17 @@ navbarPage("Locate and Donate", id="main",
                     )
            ),
            tabPanel("Data", DT::dataTableOutput("data"),
-                    #added option to add more donation centers
-                    actionButton("NewLocation", "Add more"),
+           ),
+           tabPanel("Add new Location",
+                    tags$h2('Please enter the necessary information'),
+                    textInput('Name', 'Name'),
+                    textInput('Address', 'Address'),
+                    numericInput('Latitude', 'Latitude', 0, min = -90,  max = 90, step = NA),
+                    numericInput('Longitude', 'Longitude', 0, min = -180,  max = 180, step = NA),
+                    textInput('Contact', 'Contact (Optional)'),
+                    textInput('Email', 'Email (Optional)'),
+                    textInput('Website', 'Website (Optional)'),
+                    selectInput('Category', 'Category', choices = list("Blood", "Clothes", "Food", "Recycle"), selected = NULL, multiple = FALSE, selectize = TRUE),
+                    actionButton('submit', 'Submit')
            ),
            tabPanel("Read Me",includeMarkdown("readme.md")))
