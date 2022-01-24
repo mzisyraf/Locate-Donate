@@ -69,7 +69,7 @@ shinyServer(function(input, output, session) {
                           Category = input$Category) 
       lnd_data <<- rbind(lnd_data, newrow)
       
-      #rerender the table
+      #re-render the table
       output$data <-DT::renderDataTable(datatable(
         lnd_data[,c(1,2,5,6,7:8)],filter = 'top',
         colnames = c("Name", "Address", "Contact", "Email", "Website", "Category" )
@@ -83,21 +83,6 @@ shinyServer(function(input, output, session) {
                                              '<br><strong>Website:</strong> ',Website))
       
       lnd_data2 <<- rbind(lnd_data2, newrow2)
-      
-      #rerender map
-      output$map <- renderLeaflet({
-        leaflet(filteredData()) %>% 
-          addCircles(lng = ~Longitude, lat = ~Latitude) %>% 
-          addTiles() %>%
-          addCircleMarkers(lat =  ~Latitude, lng =~Longitude, 
-                           radius = 10, popup = ~as.character(cntnt), 
-                           color = ~pal(Category),
-                           stroke = FALSE, fillOpacity = 0.9)%>%
-          addLegend(pal=pal, values=lnd_data$Category,opacity=1, na.label = "Not Available")%>%
-          addEasyButton(easyButton(
-            icon="fa-crosshairs", title="ME",
-            onClick=JS("function(btn, map){ map.locate({setView: true}); }")))
-      })
     }
   }, ignoreNULL = FALSE)
 })
