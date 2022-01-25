@@ -1,9 +1,9 @@
 
 ## Motivation
-The main motivation behind this simple shiny app is to make it easier to locate blood banks in India along with pincodes, addresses, contact person name and number.
+The main motivation behind this simple shiny app is to make it easier to locate blood banks, food banks, recycling banks and clothes banks in the Kuala Lumpur along with the associated addresses, contact number, email, coordinate and websites for blood banks. 
 
 ## Data:
-Data for the blood bank application is sourced from [Open Government Data Platform](https://data.gov.in/). The original data is available as a csv file called "Blood Bank Directory (updated Till Last Month)". The raw data file, processed data file and my shiny code is made available on my github.
+Data for the banks application is sourced from [Open Government Data Platform](https://data.gov.in/) and from Google searching. The original data is available as a csv file called "Blood Bank Directory (updated Till Last Month)". The raw data file, processed data file and my shiny code is made available on my github.
 
 I have tried my best to comment and explain where necessary.
 
