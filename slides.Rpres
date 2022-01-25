@@ -42,7 +42,7 @@ left: 50%
  
 The app contains 4 tabs: Map, Data, Add new Location, Read Me
 
-**Map**: Display a Google Map with donation locations
+**Map**: Display a Leaflet Map with donation locations
 
 **Data**: Display the information of donation locations
 
@@ -50,7 +50,7 @@ The app contains 4 tabs: Map, Data, Add new Location, Read Me
 
 ***
 
-![Google Map](Map.png)
+![Leaflet Map](Map.png)
 - When click on the dot, information of the place will be shown
 - Can select a type of donation to display
 
