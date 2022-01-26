@@ -1,5 +1,6 @@
 library(shiny)
 library(dplyr)
+library(osrm)
 library(leaflet)
 library(DT)
 
@@ -30,6 +31,30 @@ shinyServer(function(input, output, session) {
       filter(lnd_data2, Category == input$donations)
     }
   })
+  
+  # wait for user to click on map
+  observeEvent(input$map_click, {
+    click <- input$map_click
+    text<-paste("Latitude ", round(click$lat,2), "Longtitude ", round(click$lng,2))
+    userlat <- click$lat
+    userlng <- click$lng
+    showNotification(
+      print(paste0("Your current coordinate is:",
+                  userlat,
+                  ", ",
+                  userlng))
+    )
+    proxy <- leafletProxy("map")
+    
+    ## This displays the pin drop circle
+    proxy %>% 
+      clearGroup("new_point") %>%
+      #clearMarkers(layerId=input$map_click$id) %>%
+      #addPopups(click$lng, click$lat) %>%
+      addCircles(click$lng, click$lat, radius=100, color="red", group = "new_point")
+    
+  })
+
   
   output$map <- renderLeaflet({
     leaflet(filteredData()) %>% 
