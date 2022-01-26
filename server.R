@@ -1,6 +1,6 @@
 library(shiny)
 library(dplyr)
-library(osrm)
+library(rgeos)
 library(leaflet)
 library(DT)
 
