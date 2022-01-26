@@ -1,29 +1,40 @@
 library(shiny)
 library(dplyr)
-library(rgeos)
 library(leaflet)
 library(DT)
 
-shinyServer(function(input, output, session) { 
+shinyServer(function(input, output, session) {
+  #Message when app is opened --------------------------------------------------
+  showModal(
+    modalDialog(
+      title = "Welcome to Locate and Donate!",
+      easyClose = TRUE,
+      footer = modalButton("Happy Donating!"),
+      tags$h3(
+        "Click on the map to find the nearest donation center."
+      )
+    )
+  )
   
-  # Import Data and clean it
+  
+  
+  # Import Data and clean it ---------------------------------------------------
   lnd_data <- read.csv("LnD_Data.csv", stringsAsFactors = FALSE)
   lnd_data <- data.frame(lnd_data)
   lnd_data$Latitude <- as.numeric(lnd_data$Latitude)
   lnd_data$Longitude <- as.numeric(lnd_data$Longitude)
   
-  # new column for the popup label
-  
+  # new column for the popup label ---------------------------------------------
   lnd_data2 <- mutate(lnd_data, cntnt=paste0('<strong>Name: </strong>',Name,
                                              '<br><strong>Address:</strong> ', Address,
                                              '<br><strong>Contact:</strong> ',Contact,
                                              '<br><strong>Email:</strong> ',Email,
                                              '<br><strong>Website:</strong> ',Website))
   
-  # create a color palette for category type in the data file
+  # create a color palette for category type in the data file ------------------
   pal <- colorFactor(pal = c("#1b9e77", "#d95f02", "#7570b3", "#000000"), domain = c("Blood", "Clothes", "Food", "Recycle"))
   
-  # create the leaflet map according to user input 
+  # create the leaflet map according to user input -----------------------------
   filteredData <- reactive({
     if (input$donations == 'All donations') {
       lnd_data2
@@ -32,7 +43,7 @@ shinyServer(function(input, output, session) {
     }
   })
   
-  # wait for user to click on map
+  # wait for user to click on map ----------------------------------------------
   observeEvent(input$map_click, {
     click <- input$map_click
     text<-paste("Latitude ", round(click$lat,2), "Longtitude ", round(click$lng,2))
@@ -48,7 +59,7 @@ shinyServer(function(input, output, session) {
     )
     proxy <- leafletProxy("map")
     
-    ##calculate closest place to donate (by category)
+    ##calculate closest place to donate (by category) --------------------------
     
     ## by blood
     lnd_data_blood <- filter(lnd_data, Category == "Blood")
@@ -65,7 +76,6 @@ shinyServer(function(input, output, session) {
       }
       
     }
-    print(paste0("Closest place to donate blood is at ",place_name_blood," and is ",format(round(mindist_blood, 2), nsmall = 2),"KM away"))
     
     ## by clothes
     lnd_data_clothes <- filter(lnd_data, Category == "Clothes")
@@ -82,7 +92,6 @@ shinyServer(function(input, output, session) {
       }
       
     }
-    print(paste0("Closest place to donate clothes is at ",place_name_clothes," and is ",format(round(mindist_clothes, 2), nsmall = 2),"KM away"))
     
     ## by food
     lnd_data_food <- filter(lnd_data, Category == "Food")
@@ -99,7 +108,6 @@ shinyServer(function(input, output, session) {
       }
       
     }
-    print(paste0("Closest place to donate food is at ",place_name_food," and is ",format(round(mindist_food, 2), nsmall = 2),"KM away"))
     
     ## by recycle center
     lnd_data_recycle <- filter(lnd_data, Category == "Recycle")
@@ -116,9 +124,128 @@ shinyServer(function(input, output, session) {
       }
       
     }
-    print(paste0("Closest place to recycle is at ",place_name_recycle," and is ",format(round(mindist_recycle, 2), nsmall = 2),"KM away"))
     
-    ## This displays the pin drop circle
+    #Popup Message on the closest donation center
+    if (input$donations == 'All donations') {
+      showModal(
+        modalDialog(
+          easyClose = TRUE,
+          tags$h3(
+            "The Closest place to"
+          ),
+          tags$h3(
+              tags$strong(
+                "DONATE BLOOD"
+              ),
+              tags$p(
+                place_name_blood,"and is", format(round(mindist_blood, 2), nsmall = 2),"KM away"
+              )
+          ), 
+          tags$h3(
+            tags$strong(
+              "DONATE CLOTHES"
+            ),
+            tags$p(
+              place_name_clothes," and is ",format(round(mindist_clothes, 2), nsmall = 2),"KM away"
+            )
+          ),
+          tags$h3(
+            tags$strong(
+              "DONATE FOOD"
+            ),
+            tags$p(
+              place_name_food," and is ",format(round(mindist_food, 2), nsmall = 2),"KM away"
+            )
+          ),
+          tags$h3(
+            tags$strong(
+              "RECYCLE"
+            ),
+            tags$p(
+              place_name_recycle," and is ",format(round(mindist_recycle, 2), nsmall = 2),"KM away"
+            )
+          )
+        )
+      )
+    }
+    
+    if (input$donations == 'Blood'){
+      showModal(
+        modalDialog(
+          easyClose = TRUE,
+          tags$h3(
+            "The Closest place to"
+          ),
+          tags$h3(
+            tags$strong(
+              "DONATE BLOOD"
+            ),
+            tags$p(
+              place_name_blood,"and is", format(round(mindist_blood, 2), nsmall = 2),"KM away"
+            )
+          )
+        )
+      )
+    }
+    
+    if (input$donations == 'Clothes'){
+      showModal(
+        modalDialog(
+          easyClose = TRUE,
+          tags$h3(
+            "The Closest place to"
+          ),
+          tags$h3(
+            tags$strong(
+              "DONATE CLOTHES"
+            ),
+            tags$p(
+              place_name_clothes," and is ",format(round(mindist_clothes, 2), nsmall = 2),"KM away"
+            )
+          )
+        )
+      )
+    }
+    
+    if (input$donations == 'Food'){
+      showModal(
+        modalDialog(
+          easyClose = TRUE,
+          tags$h3(
+            "The Closest place to"
+          ),
+          tags$h3(
+            tags$strong(
+              "DONATE FOOD"
+            ),
+            tags$p(
+              place_name_food," and is ",format(round(mindist_food, 2), nsmall = 2),"KM away"
+            )
+          )
+        )
+      )
+    }
+    
+    if (input$donations == 'Recycle'){
+      showModal(
+        modalDialog(
+          easyClose = TRUE,
+          tags$h3(
+            "The Closest place to"
+          ),
+          tags$h3(
+            tags$strong(
+              "RECYCLE"
+            ),
+            tags$p(
+              place_name_recycle," and is ",format(round(mindist_recycle, 2), nsmall = 2),"KM away"
+            )
+          )
+        )
+      )
+    }
+    
+    ## This displays the pin drop circle ---------------------------------------
     proxy %>% 
       clearGroup("new_point") %>%
       #clearMarkers(layerId=input$map_click$id) %>%
@@ -127,7 +254,7 @@ shinyServer(function(input, output, session) {
     
   })
 
-  
+  #render map ------------------------------------------------------------------
   output$map <- renderLeaflet({
     leaflet(filteredData()) %>% 
       addCircles(lng = ~Longitude, lat = ~Latitude) %>% 
@@ -144,19 +271,20 @@ shinyServer(function(input, output, session) {
   
   
   
-  #create a data object to display data
+  #create a data object to display data ----------------------------------------
   output$data <-DT::renderDataTable(datatable(
     lnd_data[,c(1,2,5,6,7:8)],filter = 'top',
     colnames = c("Name", "Address", "Contact", "Email", "Website", "Category" )
   ))
   
-  # only store the information if the user clicks submit
+  # only store the information if the user clicks submit -----------------------
   observeEvent(input$submit, {
     #Added range for longitude and latitude cause Shiny numericInput does not respect range
     if(input$Name!="" && input$Address!="" && input$Latitude<=90 && input$Latitude>=-90 && input$Longitude<=180 && input$Longitude>=-180){
-      #show added success
+      #show added success ------------------------------------------------------
       showNotification("Location Added")
       
+      #add new data ------------------------------------------------------------
       newrow = data.frame(Name = input$Name,
                           Address = input$Address,
                           Latitude = input$Latitude,
@@ -167,13 +295,13 @@ shinyServer(function(input, output, session) {
                           Category = input$Category) 
       lnd_data <<- rbind(lnd_data, newrow)
       
-      #re-render the table
+      #re-render the table -----------------------------------------------------
       output$data <-DT::renderDataTable(datatable(
         lnd_data[,c(1,2,5,6,7:8)],filter = 'top',
         colnames = c("Name", "Address", "Contact", "Email", "Website", "Category" )
       ))
       
-      #update value of lnd_data2
+      #update value of lnd_data2 -----------------------------------------------
       newrow2 <- mutate(newrow, cntnt=paste0('<strong>Name: </strong>',Name,
                                              '<br><strong>Address:</strong> ', Address,
                                              '<br><strong>Contact:</strong> ',Contact,
