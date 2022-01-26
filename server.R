@@ -55,7 +55,8 @@ shinyServer(function(input, output, session) {
   
   # only store the information if the user clicks submit
   observeEvent(input$submit, {
-    if(input$Name!="" && input$Address!=""){
+    #Added range for longitude and latitude cause Shiny numericInput does not respect range
+    if(input$Name!="" && input$Address!="" && input$Latitude<=90 && input$Latitude>=-90 && input$Longitude<=180 && input$Longitude>=-180){
       #show added success
       showNotification("Location Added")
       
