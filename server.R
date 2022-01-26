@@ -38,13 +38,85 @@ shinyServer(function(input, output, session) {
     text<-paste("Latitude ", round(click$lat,2), "Longtitude ", round(click$lng,2))
     userlat <- click$lat
     userlng <- click$lng
+    userlat_rad <- userlat/57.29577951
+    userlng_rad <- userlng/57.29577951
     showNotification(
       print(paste0("Your current coordinate is:",
-                  userlat,
-                  ", ",
-                  userlng))
+                   userlat,
+                   ", ",
+                   userlng))
     )
     proxy <- leafletProxy("map")
+    
+    ##calculate closest place to donate (by category)
+    
+    ## by blood
+    lnd_data_blood <- filter(lnd_data, Category == "Blood")
+    mindist_blood <- 1000
+    for (row in 1:nrow(lnd_data_blood)) {
+      loclat_blood <- lnd_data_blood[row, "Latitude"]
+      loclng_blood <- lnd_data_blood[row, "Longitude"]
+      loclat_blood_rad <- loclat_blood/57.29577951
+      loclng_blood_rad <- loclng_blood/57.29577951
+      distance_blood <- 1.609344*(3963.0 * acos((sin(userlat_rad) * sin(loclat_blood_rad)) + cos(userlat_rad) * cos(loclat_blood_rad) * cos(loclng_blood_rad - userlng_rad)))
+      if (distance_blood < mindist_blood){
+        mindist_blood <- distance_blood
+        place_name_blood <- lnd_data_blood[row, "Name"]
+      }
+      
+    }
+    print(paste0("Closest place to donate blood is at ",place_name_blood," and is ",format(round(mindist_blood, 2), nsmall = 2),"KM away"))
+    
+    ## by clothes
+    lnd_data_clothes <- filter(lnd_data, Category == "Clothes")
+    mindist_clothes <- 1000
+    for (row in 1:nrow(lnd_data_clothes)) {
+      loclat_clothes <- lnd_data_clothes[row, "Latitude"]
+      loclng_clothes <- lnd_data_clothes[row, "Longitude"]
+      loclat_clothes_rad <- loclat_clothes/57.29577951
+      loclng_clothes_rad <- loclng_clothes/57.29577951
+      distance_clothes <- 1.609344*(3963.0 * acos((sin(userlat_rad) * sin(loclat_clothes_rad)) + cos(userlat_rad) * cos(loclat_clothes_rad) * cos(loclng_clothes_rad - userlng_rad)))
+      if (distance_clothes < mindist_clothes){
+        mindist_clothes <- distance_clothes
+        place_name_clothes <- lnd_data_clothes[row, "Name"]
+      }
+      
+    }
+    print(paste0("Closest place to donate clothes is at ",place_name_clothes," and is ",format(round(mindist_clothes, 2), nsmall = 2),"KM away"))
+    
+    ## by food
+    lnd_data_food <- filter(lnd_data, Category == "Food")
+    mindist_food <- 1000
+    for (row in 1:nrow(lnd_data_food)) {
+      loclat_food <- lnd_data_food[row, "Latitude"]
+      loclng_food <- lnd_data_food[row, "Longitude"]
+      loclat_food_rad <- loclat_food/57.29577951
+      loclng_food_rad <- loclng_food/57.29577951
+      distance_food <- 1.609344*(3963.0 * acos((sin(userlat_rad) * sin(loclat_food_rad)) + cos(userlat_rad) * cos(loclat_food_rad) * cos(loclng_food_rad - userlng_rad)))
+      if (distance_food < mindist_food){
+        mindist_food <- distance_food
+        place_name_food <- lnd_data_food[row, "Name"]
+      }
+      
+    }
+    print(paste0("Closest place to donate food is at ",place_name_food," and is ",format(round(mindist_food, 2), nsmall = 2),"KM away"))
+    
+    ## by recycle center
+    lnd_data_recycle <- filter(lnd_data, Category == "Recycle")
+    mindist_recycle <- 1000
+    for (row in 1:nrow(lnd_data_recycle)) {
+      loclat_recycle <- lnd_data_recycle[row, "Latitude"]
+      loclng_recycle <- lnd_data_recycle[row, "Longitude"]
+      loclat_recycle_rad <- loclat_recycle/57.29577951
+      loclng_recycle_rad <- loclng_recycle/57.29577951
+      distance_recycle <- 1.609344*(3963.0 * acos((sin(userlat_rad) * sin(loclat_recycle_rad)) + cos(userlat_rad) * cos(loclat_recycle_rad) * cos(loclng_recycle_rad - userlng_rad)))
+      if (distance_recycle < mindist_recycle){
+        mindist_recycle <- distance_recycle
+        place_name_recycle <- lnd_data_recycle[row, "Name"]
+      }
+      
+    }
+    print(paste0("Closest place to recycle is at ",place_name_recycle," and is ",format(round(mindist_recycle, 2), nsmall = 2),"KM away"))
     
     ## This displays the pin drop circle
     proxy %>% 
