@@ -3,7 +3,7 @@
 The main motivation behind this simple shiny app is to make it easier to locate blood banks, food banks, recycling banks and clothes banks in the Kuala Lumpur along with the associated addresses, contact number, email, coordinate and websites for blood banks. 
 
 ## Data:
-Data for the banks is sourced from [Open Government Data Platform](https://data.gov.in/) and from Google searching. The original data is available as a csv file called "WIA1007 Data". The processed data file and our shiny code is made available on our github.
+Data for the banks is sourced from [Open Government Data Platform](https://pdn.gov.my/v2/) and from Google searching. The original data is available as a csv file called "WIA1007 Data". The processed data file and our shiny code is made available on our github.
 
 We have tried our best to comment and explain where necessary.
 
