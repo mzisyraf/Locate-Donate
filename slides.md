@@ -33,7 +33,7 @@ Link to datasets: <https://www.kaggle.com/marvinchinyikai/kuala-lumpur-donation-
 
 Data Science Process
 ========================================================
-left: 40%
+left: 65%
 
 **Asking Question**
 - What is the nearest donation centre from a point?
@@ -41,10 +41,10 @@ left: 40%
 - How to volunteer at these centres?
 - How to find the contact details of these centres?
 
-***
-
 **Finding Data And Getting Data**
 - We find and get data using Google, government sources and NGOs
+
+***
 
 **Cleaning Data**
 - We clean the data collected using R
@@ -52,6 +52,8 @@ left: 40%
 **Analyzing Data**
 - We analyzed the data and converted into meaningful data
 
+**Model Deployment**
+- Using shiny app
 
 App Description
 ========================================================
