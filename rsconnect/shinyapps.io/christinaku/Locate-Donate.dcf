@@ -1,0 +1,13 @@
+name: Locate-Donate
+title: Locate-Donate
+username:
+account: christinaku
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 5504647
+bundleId: 5512521
+url: https://christinaku.shinyapps.io/Locate-Donate/
+when: 1643243202.34476
+lastSyncTime: 1643243202.34476
+asMultiple: FALSE
+asStatic: FALSE

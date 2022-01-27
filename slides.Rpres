@@ -8,32 +8,49 @@ author: GROUP Q
 4. ISAIAH DISIMOND (U2000487)
 5. MUHAMMAD ZAHIRUL ISYRAF BIN MOHAMED AIDI SHAHRIZ (U2001392)
 
-#### Link to Shiny App:
-#### Link to R code: <https://github.com/mzisyraf/Locate-Donate>
+#### Shiny App: <https://christinaku.shinyapps.io/Locate-Donate/>
+#### R code: <https://github.com/mzisyraf/Locate-Donate>
 
 Introduction
 ========================================================
+left: 65%
+
 **Description on datasets used**
 
 The datasets contain the name of the places, address, latitude, longitude, contact number, email, website and category of donation
 
+Link to datasets: <https://www.kaggle.com/marvinchinyikai/kuala-lumpur-donation-centers>
+![Clothes](Clothes.jpeg)
+
+***
+
 **Stakeholders**
 
-People who want to donate blood / clothes / food / recycle
+- People who want to donate
+- People who are looking for centres to get clothes and food etc
+
+![Donate](Donate.jpeg)
 
 Data Science Process
 ========================================================
+left: 40%
+
 **Asking Question**
-- Where can I donate blood / clothes / food / recycle?
-- Who can I contact if want to donate there?
+- What is the nearest donation centre from a point?
+- How to locate the local donation centres online?
+- How to volunteer at these centres?
+- How to find the contact details of these centres?
 
--
+***
+
 **Finding Data And Getting Data**
-- We find and get data using Google
+- We find and get data using Google, government sources and NGOs
 
--
 **Cleaning Data**
 - We clean the data collected using R
+
+**Analyzing Data**
+- We analyzed the data and converted into meaningful data
 
 
 App Description
@@ -42,17 +59,17 @@ left: 50%
  
 The app contains 4 tabs: Map, Data, Add new Location, Read Me
 
-**Map**: Display a Leaflet Map with donation locations
+**Map**: Display a Leaflet Map with donation centres
 
-**Data**: Display the information of donation locations
+**Data**: Display the information of donation centres
 
 ![Data](Data.png)
 
 ***
 
 ![Leaflet Map](Map.png)
-- When click on the dot, information of the place will be shown
-- Can select a type of donation to display
+- When click on the map, the nearest donation centres will be shown
+- When click on the dot, information of the donation centres will be shown
 
 Summary Of Experience
 ========================================================
@@ -67,4 +84,4 @@ title: false
 
 **Summary of Experience**
 
-This is our first time making Shiny App. We design this app to help people to find donation locations. However, this app is only limited to places in Kuala Lumpur. Hope you find it useful.
+#### To sum up our experience, it was a challenging yet fulfilling journey into the world of Data Science. We felt like this course is an excellent primer to dip our toes into Machine Learning, R language and the process of Data Science. We faced some challenges along the way such as not being proficient enough in the R language to accurately manifest the vision for our app as there are still some shortcomings such as only covering the KL area for now, but rest assured that we are working on it.
