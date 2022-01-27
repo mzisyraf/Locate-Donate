@@ -5,9 +5,9 @@ account: christinaku
 server: shinyapps.io
 hostUrl: https://api.shinyapps.io/v1
 appId: 5504647
-bundleId: 5512521
+bundleId: 5513099
 url: https://christinaku.shinyapps.io/Locate-Donate/
-when: 1643243202.34476
-lastSyncTime: 1643243202.34476
+when: 1643260621.28482
+lastSyncTime: 1643260621.28482
 asMultiple: FALSE
 asStatic: FALSE
